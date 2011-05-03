@@ -1,0 +1,75 @@
+= adaptable_tests_for_rails
+
+Sets up testing environment for multiple databases.
+
+
+== Installation
+
+Using bundler:
+
+    group :test do
+      gem 'adaptable_tests_for_rails'
+    end
+
+
+== Configuration
+
+Create the different environments in database.yml (they should all be prefixed with test_) and specify a default configuration:
+
+    test_sqlite_memory: &DEFAULT_TEST
+      adapter: sqlite3
+      database: ":memory:"
+      verbosity: quiet
+
+    test_sqlite_file:
+      adapter: sqlite3
+      database: db/test.sqlite3
+
+    test_mysql:
+      database: gvt-us_test
+      <<: *base
+
+    test:
+      <<: *DEFAULT_TEST
+
+
+== Usage
+
+Now you can run tests normally.
+
+    rake
+
+This will run tests with *DEFAULT_TEST configuration.
+
+You can also run tests for a specific database config:
+
+    rake spec DB=sqlite_file
+
+This will run the test_sqlite_file configuration.
+
+Notice that none of this configuration is unique to adaptable_tests_for_rails.  Each of these configuration paradigms are simply
+Ruby or Rails paradigms.
+
+
+== License
+
+Copyright (c) 2011 C. Jason Harrelson (midas)
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
