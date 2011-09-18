@@ -6,15 +6,12 @@ module AdaptableTestsForRails
       setup_test_environment( ENV['DB'] || 'test' )
     end
 
-    config.before_initialize do
-
-    end
-
     def setup_test_environment( env )
-      puts "", "Connecting to #{db_type( env )} database ..."
       ActiveRecord::Base.establish_connection( Rails.configuration.database_configuration["test_#{env}"] )
       puts building_database_statement, ""
-      load schema_path
+      silence_stream STDOUT do
+        load schema_path
+      end
     end
 
     def db_type( env )
